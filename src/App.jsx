@@ -1,6 +1,7 @@
 import './App.css'
 import logoDarkMode from './assets/dark.png'
 import logoMetro from './assets/metro.png'
+import Cupcake from './components/Cupcake'
 import { Formulario } from './components/Formulario'
 import Listar from './components/Listar'
 import { useState } from 'react'
@@ -8,6 +9,7 @@ import { useState } from 'react'
 
 function App() {
   const [darkMode, setdarkMode] = useState(false)
+  const [estado, setEstado] = useState(false) //Paso de propiedades "PROPS"
   return (
     <div className={darkMode ? "dark" :""}>
 
@@ -29,7 +31,11 @@ function App() {
             <hr className="w-80 border border-gray-400" />
           </div>
           <div className='mt-10'>
-            <Formulario/>
+            <Formulario setEstado={setEstado}/>
+            {/* Componentes dinamicos */}
+            {/* <Cupcake nombre={'bg-red-500'}> Rosa </Cupcake>
+            <Cupcake nombre={'bg-orange-500'}> Celeeste </Cupcake>
+            <Cupcake/> */}
           </div>
         </div>
         
@@ -42,7 +48,7 @@ function App() {
             <hr className="w-80 border border-gray-400" />
           </div>
           <div className='mt-10 h-[675px] overflow-y-auto'>
-            <Listar/>
+            <Listar estado = {estado}/>
           </div>
         </div>
       </main>

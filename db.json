@@ -1,0 +1,39 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "metro": [
+    {
+      "nombre": "Quito",
+      "sector": "Quito",
+      "salida": "Quito",
+      "llegada": "Quito",
+      "maquinista": "Quito",
+      "detalles": "Quito",
+      "id": "31382e01-4efe-41eb-b6b5-791112e957e8"
+    },
+    {
+      "nombre": "Otra ruta",
+      "sector": "Otra ruta",
+      "salida": "Otra ruta",
+      "llegada": "Otra ruta",
+      "maquinista": "Otra ruta",
+      "detalles": "Otra ruta",
+      "id": "f3b33b8a-11ed-40ed-9da1-7c7ee46f7e37"
+    }
+  ]
+}

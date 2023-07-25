@@ -1,9 +1,63 @@
 import Mensajes from "./Mensajes"
+import { useState } from "react"
+import { v4 as uuidv4 } from 'uuid';
 
-export const Formulario = () => {
+
+// {setEstado} => desectructuracion || this.setEstado
+export const Formulario = ({setEstado}) => {
+    const [error, setError] = useState(false)
+    const [mensaje, setMensaje] = useState(false)
+    const [form, setform] = useState({
+        nombre:"",
+        sector:"",
+        salida:"",
+        llegada:"",
+        maquinista:"",
+        detalles:""
+    })
+
+    const handleChange = (e) => { 
+        setform({
+            ...form,
+            [e.target.name]: e.target.value.trim()
+        })
+    }
+    
+    const handleSubmit = async(e)=>{
+        e.preventDefault() //Evita la recarga del formulario
+        //Validacion de campos vacios
+        if (Object.values(form).includes("") || Object.entries(form).length === 0)
+        {
+            setError(true)
+            setTimeout(() => {
+                setError(false)
+            }, 1000);
+            return //Semejante a un break
+        }
+        try {
+            const url ="http://localhost:3000/metro"
+                        form.id = uuidv4()
+            await fetch(url,{
+                method:'POST', //Metodo para recar un nuevo recurso
+                body:JSON.stringify(form), //Transforma a json
+                headers:{'Content-Type':'application/json'} //Tipo de contenido
+            })
+            setMensaje(true)
+                        setEstado(true)
+            setTimeout(() => {
+                setMensaje(false)
+                                setEstado(false)
+                setform({})
+            }, 1000);
+        } catch (error) {
+            console.log(error);
+        }
+    
+    }
     return (
-        <form>
-            <Mensajes tipo={"bg-red-900"}>validar campos</Mensajes>
+        <form onSubmit={handleSubmit}>
+            {error && <Mensajes tipo="bg-red-900">"Existen campos vacíos"</Mensajes>}
+	        {mensaje && <Mensajes tipo="bg-green-900">"Registro exitoso"</Mensajes>}
             <div>
                 <label
                     htmlFor='nombre'
@@ -14,6 +68,8 @@ export const Formulario = () => {
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
                     placeholder='nombre de la ruta'
                     name='nombre'
+                    value={form.nombre || ""}
+                    onChange={handleChange}
                 />
             </div>
 
@@ -27,6 +83,8 @@ export const Formulario = () => {
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
                     placeholder='sector de la ruta'
                     name='sector'
+                    value={form.sector || ""}
+                    onChange={handleChange}
                 />
             </div>
 
@@ -40,6 +98,8 @@ export const Formulario = () => {
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
                     placeholder='punto de salida'
                     name='salida'
+                    value={form.salida || ""}
+                    onChange={handleChange}
                 />
             </div>
 
@@ -53,6 +113,8 @@ export const Formulario = () => {
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
                     placeholder='punto de llegada'
                     name='llegada'
+                    value={form.llegada || ""}
+                    onChange={handleChange}
                 />
             </div>
 
@@ -66,6 +128,8 @@ export const Formulario = () => {
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
                     placeholder='nombre del maquinista'
                     name='maquinista'
+                    value={form.maquinista || ""}
+                    onChange={handleChange}
                 />
             </div>
             <div>
@@ -77,6 +141,8 @@ export const Formulario = () => {
                     type="text"
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
                     name='detalles'
+                    value={form.detalles || ""} //Si no existe un dato o esta vacio
+                    onChange={handleChange}
                 />
             </div>
 
