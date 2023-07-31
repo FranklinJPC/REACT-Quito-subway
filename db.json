@@ -18,22 +18,22 @@
   },
   "metro": [
     {
-      "nombre": "Quito",
-      "sector": "Quito",
-      "salida": "Quito",
-      "llegada": "Quito",
-      "maquinista": "Quito",
-      "detalles": "Quito",
-      "id": "31382e01-4efe-41eb-b6b5-791112e957e8"
-    },
-    {
       "nombre": "Otra ruta",
       "sector": "Otra ruta",
       "salida": "Otra ruta",
       "llegada": "Otra ruta",
-      "maquinista": "Otra ruta",
+      "maquinista": "Mal",
       "detalles": "Otra ruta",
       "id": "f3b33b8a-11ed-40ed-9da1-7c7ee46f7e37"
+    },
+    {
+      "nombre": "test",
+      "sector": "test",
+      "salida": "tes",
+      "llegada": "test",
+      "maquinista": "tex",
+      "detalles": "test",
+      "id": "ab4a7a02-5ca6-486a-b4a2-86aec3cd60e9"
     }
   ]
 }

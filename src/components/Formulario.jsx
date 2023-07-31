@@ -1,10 +1,11 @@
 import Mensajes from "./Mensajes"
 import { useState } from "react"
+import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 
 // {setEstado} => desectructuracion || this.setEstado
-export const Formulario = ({setEstado}) => {
+export const Formulario = ({setEstado, idMetro}) => {
     const [error, setError] = useState(false)
     const [mensaje, setMensaje] = useState(false)
     const [form, setform] = useState({
@@ -15,7 +16,30 @@ export const Formulario = ({setEstado}) => {
         maquinista:"",
         detalles:""
     })
-
+    useEffect(() => {
+        if(idMetro)
+        {
+            (async function (idMetro) {
+                try {
+                    const respuesta = await (await fetch(`http://localhost:3000/metro/${idMetro}`)).json()
+                    const {id,nombre,sector,salida,llegada,maquinista,detalles} = respuesta
+                    setform({
+                        ...form,
+                        nombre,
+                        sector,
+                        salida,
+                        llegada,
+                        maquinista,
+                        detalles,
+                        id
+                    })
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            })(idMetro)
+        }
+    }, [idMetro])
     const handleChange = (e) => { 
         setform({
             ...form,
@@ -35,20 +59,36 @@ export const Formulario = ({setEstado}) => {
             return //Semejante a un break
         }
         try {
-            const url ="http://localhost:3000/metro"
-                        form.id = uuidv4()
-            await fetch(url,{
-                method:'POST', //Metodo para recar un nuevo recurso
-                body:JSON.stringify(form), //Transforma a json
-                headers:{'Content-Type':'application/json'} //Tipo de contenido
-            })
-            setMensaje(true)
-                        setEstado(true)
-            setTimeout(() => {
-                setMensaje(false)
-                                setEstado(false)
+            if(form.id){
+                const url = `http://localhost:3000/metro/${form.id}`
+                await fetch(url,{
+                    method:'PUT',
+                    body:JSON.stringify(form),
+                    headers:{'Content-Type':'application/json'}
+                })
+                setEstado(true)
                 setform({})
-            }, 1000);
+					setTimeout(() => {
+                    setEstado(false)
+                    setform({})
+                }, 1000)
+            }
+            else{
+                const url ="http://localhost:3000/metro"
+                            form.id = uuidv4()
+                await fetch(url,{
+                    method:'POST', //Metodo para recar un nuevo recurso
+                    body:JSON.stringify(form), //Transforma a json
+                    headers:{'Content-Type':'application/json'} //Tipo de contenido
+                })
+                setMensaje(true)
+                            setEstado(true)
+                setTimeout(() => {
+                    setMensaje(false)
+                                    setEstado(false)
+                    setform({})
+                }, 1000);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -151,7 +191,7 @@ export const Formulario = ({setEstado}) => {
                 className='bg-sky-900 w-full p-3 
         text-white uppercase font-bold rounded-lg 
         hover:bg-red-900 cursor-pointer transition-all'
-                value='Registrar ruta' />
+                value={form.id ? "Actualizar ruta" : "Registrar ruta"} /> {/* Boton dinamico */}
 
         </form>
     )

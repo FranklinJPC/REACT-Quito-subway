@@ -3,7 +3,7 @@ import Mensajes from './Mensajes'
 
 import { useState, useEffect } from 'react'
 
-const Listar = ({estado}) => {
+const Listar = ({estado, setIdmetro}) => {
     // Array vacio
     const [rutas, setRutas] = useState([])
     // Carga la informacion
@@ -27,6 +27,22 @@ const Listar = ({estado}) => {
                 })() //<-- Caracteristica principal
             }
     }, [estado]) // <-- Al estar vacio solo cargara una vez / [estado]: Carga por primerza vez y cuando detecta un cambio de estado
+    const handleDelete = async (id) => {
+        try {
+            const confirmar = confirm("Vas a aliminar una ruta")
+            if (confirmar) {
+                const url = `http://localhost:3000/metro/${id}`
+                await fetch(url, {
+                    method: 'DELETE',
+                })
+                const nuevasRutas = rutas.filter(ruta => ruta.id !== id)
+                setRutas(nuevasRutas)
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <>
         {/* <> Fragments </> */}
@@ -49,8 +65,8 @@ const Listar = ({estado}) => {
                                 <p className="text-gray-500">Maquinista: {ruta.maquinista}</p>
                                 <p className="text-gray-500">Detalles: {ruta.detalles}</p>
                                 <div className='flex justify-between mt-3 lg:justify-end md:justify-end gap-3'>
-                                    <button className='bg-sky-900 text-white px-6 py-1 rounded-full'>Actualizar</button>
-                                    <button className='bg-red-900 text-white px-6 py-1 rounded-full'>Eliminar</button>
+                                    <button className='bg-sky-900 text-white px-6 py-1 rounded-full'onClick={()=>{setIdmetro(ruta.id)}}>Actualizar</button>
+                                    <button className='bg-red-900 text-white px-6 py-1 rounded-full' onClick={()=>{handleDelete(ruta.id)}}>Eliminar</button>
                                 </div>
                             </div>
                         </div>

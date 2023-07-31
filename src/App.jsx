@@ -10,6 +10,7 @@ import { useState } from 'react'
 function App() {
   const [darkMode, setdarkMode] = useState(false)
   const [estado, setEstado] = useState(false) //Paso de propiedades "PROPS"
+  const [idMetro, setIdmetro] = useState(0)
   return (
     <div className={darkMode ? "dark" :""}>
 
@@ -31,7 +32,7 @@ function App() {
             <hr className="w-80 border border-gray-400" />
           </div>
           <div className='mt-10'>
-            <Formulario setEstado={setEstado}/>
+            <Formulario setEstado={setEstado} idMetro={idMetro}/>
             {/* Componentes dinamicos */}
             {/* <Cupcake nombre={'bg-red-500'}> Rosa </Cupcake>
             <Cupcake nombre={'bg-orange-500'}> Celeeste </Cupcake>
@@ -48,7 +49,7 @@ function App() {
             <hr className="w-80 border border-gray-400" />
           </div>
           <div className='mt-10 h-[675px] overflow-y-auto'>
-            <Listar estado = {estado}/>
+            <Listar estado = {estado} setIdmetro={setIdmetro}/>
           </div>
         </div>
       </main>
